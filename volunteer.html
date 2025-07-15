@@ -1,0 +1,257 @@
+<!-- volunteer.html: With Google Sign-In, extra questions, dropdowns, and background image -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Volunteer | Eazy-Ira Foundation</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="images/logo.png" />
+  <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-auth-compat.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+      padding: 0;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .volunteer-section {
+      background-image: url('images/signin-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      padding: 80px 20px;
+      position: relative;
+    }
+
+    .volunteer-section::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(255, 255, 255, 0.85);
+      z-index: 0;
+    }
+
+    .volunteer-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #4CAF50;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input, select, textarea {
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 15px;
+      width: 100%;
+    }
+
+    button {
+      padding: 12px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #thank-you {
+      color: green;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="images/logo.png" alt="Logo" width="60" />
+      <h1>Eazy-Ira Foundation</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="activities.html">Our Activities</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="team.html">Team</a></li>
+        <li><a href="donate.html">Donate</a></li>
+        <li><a href="children.html">Our Children</a></li>
+        <li><a href="volunteer.html">Volunteer</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="volunteer-section">
+    <div class="volunteer-content">
+      <h2>Volunteer Application</h2>
+      <button id="google-login">Sign in with Google</button>
+      <button id="logoutBtn" style="display:none;">Logout</button>
+
+      <form id="volunteer-form" style="display:none;">
+        <input type="text" name="name" placeholder="Full Name" required />
+
+        <div>
+          <label>Date of Birth:</label><br />
+          <select name="dob-day" required><option value="">Day</option></select>
+          <select name="dob-month" required><option value="">Month</option></select>
+          <select name="dob-year" required><option value="">Year</option></select>
+        </div>
+
+        <select name="gender" required>
+          <option value="">-- Gender --</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+
+        <select name="age" required>
+          <option value="">-- Age Range --</option>
+          <option>18–25</option>
+          <option>26–40</option>
+          <option>41 and above</option>
+        </select>
+
+        <input type="text" name="occupation" placeholder="Occupation" required />
+        <input type="text" name="marital" placeholder="Marital Status" required />
+        <input type="text" name="education" placeholder="Education Level" required />
+        <input type="text" name="career" placeholder="Career Path" required />
+        <input type="tel" name="phone" placeholder="Phone Number" required />
+        <input type="text" name="location" placeholder="Your Location" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="text" name="facebook" placeholder="Facebook (Optional)" />
+        <input type="text" name="tiktok" placeholder="TikTok (Optional)" />
+        <input type="text" name="instagram" placeholder="Instagram (Optional)" />
+
+        <select name="sabbath" required>
+          <option value="">Can you attend Sabbath sections?</option>
+          <option>I can try</option>
+          <option>I can attend 2 per month</option>
+          <option>I can attend 1 per month</option>
+          <option>I can not manage to attend all sections</option>
+          <option>I don't know</option>
+        </select>
+
+        <select name="referrer" required>
+          <option value="">How did you hear about us?</option>
+          <option>Social Media</option>
+          <option>Friend</option>
+          <option>Church</option>
+          <option>Community Event</option>
+          <option>Other</option>
+        </select>
+
+        <textarea name="interest" rows="5" placeholder="Why do you want to volunteer? (min 2 paragraphs)" required></textarea>
+
+        <textarea name="experience" rows="6" placeholder="What are your experiences and skills in working with children? (min 3 paragraphs)" required></textarea>
+
+        <button type="submit">Submit Application</button>
+        <p id="thank-you"></p>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAjtbrxK-SPZLH5YM9c3ON3cVrmiVS6Ns4",
+      authDomain: "eazyirawebsite.firebaseapp.com",
+      projectId: "eazyirawebsite",
+      storageBucket: "eazyirawebsite.appspot.com",
+      messagingSenderId: "447277975835",
+      appId: "1:447277975835:web:a196a3a51b4f4df857abbe"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    const loginBtn = document.getElementById("google-login");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const form = document.getElementById("volunteer-form");
+    const thankYou = document.getElementById("thank-you");
+
+    loginBtn.onclick = () => {
+      auth.signInWithPopup(provider);
+    };
+
+    logoutBtn.onclick = () => {
+      auth.signOut();
+    };
+
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        loginBtn.style.display = "none";
+        logoutBtn.style.display = "inline-block";
+        form.style.display = "block";
+      } else {
+        loginBtn.style.display = "inline-block";
+        logoutBtn.style.display = "none";
+        form.style.display = "none";
+      }
+    });
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const name = form.elements['name'].value;
+      thankYou.innerText = `Thank you ${name}, your application has been received. We will respond as soon as possible.`;
+      form.reset();
+    });
+
+    // Populate date dropdowns
+    const day = form.elements['dob-day'];
+    const month = form.elements['dob-month'];
+    const year = form.elements['dob-year'];
+
+    for (let d = 1; d <= 31; d++) day.innerHTML += `<option>${d}</option>`;
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    months.forEach(m => month.innerHTML += `<option>${m}</option>`);
+    for (let y = 1980; y <= 2010; y++) year.innerHTML += `<option>${y}</option>`;
+  </script>
+</body>
+</html>

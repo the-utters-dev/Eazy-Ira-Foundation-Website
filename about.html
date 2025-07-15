@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us | Eazy-Ira Foundation</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="images/logo.png" />
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      background-image: url('images/about-bg.jpg'); /* Replace with your image */
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.85); /* light overlay */
+      z-index: 0;
+    }
+
+    header, section {
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      background-color: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+      padding: 0;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-weight: bold;
+      color: #333;
+    }
+
+    section {
+      padding: 40px 20px;
+      max-width: 800px;
+      margin: auto;
+      text-align: center;
+    }
+
+    h2 {
+      color: #4CAF50;
+      margin-bottom: 20px;
+    }
+
+    .motto {
+      font-size: 18px;
+      font-weight: bold;
+      color: #2c3e50;
+      margin: 30px 0 20px;
+    }
+
+    .pdf-button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 25px;
+      background-color: #4CAF50;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .pdf-button:hover {
+      background-color: #45a049;
+    }
+
+    @media screen and (max-width: 600px) {
+      nav ul {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="images/logo.png" alt="Logo" width="60" />
+      <h1>Eazy-Ira Foundation</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="activities.html">Our Activities</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="team.html">Team</a></li>
+        <li><a href="donate.html">Donate</a></li>
+        <li><a href="children.html">Our Children</a></li>
+        <li><a href="volunteer.html">Volunteer</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section>
+    <h2>About Eazy-Ira Foundation</h2>
+    <p>
+      Eazy-Ira Foundation is a Christian-based charitable organization with a mission to bring hope, love,
+      and support to underprivileged children and their families. We believe every child deserves a safe
+      environment, spiritual growth, and opportunities to develop their full potential.
+    </p>
+
+    <h2>Our Mission</h2>
+    <p>
+      To demonstrate the love of Jesus Christ through holistic support — spiritually, socially,
+      and physically — to vulnerable children, equipping them for a better future.
+    </p>
+
+    <h2>Our Vision</h2>
+    <p>
+      A world where every child is valued, supported, and empowered to live with dignity and purpose.
+    </p>
+
+    <p class="motto">"Love in Action, Hope in Every Child"</p>
+
+    <a href="documents/about-eazyira.pdf" target="_blank" class="pdf-button">
+      Click here to read more about Eazy-Ira Foundation
+    </a>
+  </section>
+</body>
+</html>

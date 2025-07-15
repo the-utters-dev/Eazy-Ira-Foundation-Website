@@ -1,0 +1,202 @@
+<!-- contact.html (1 of 2): With real Google login, background image, and message form -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | Eazy-Ira Foundation</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="images/logo.png">
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-auth-compat.js"></script>
+
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+      padding: 0;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .contact-section {
+      background-image: url('images/contact-bg.jpg'); /* Your background image */
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      padding: 100px 20px;
+      text-align: center;
+    }
+
+    .contact-section::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(255, 255, 255, 0.85);
+      z-index: 0;
+    }
+
+    .contact-content {
+      position: relative;
+      z-index: 1;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .contact-content h2 {
+      color: #4CAF50;
+      margin-bottom: 20px;
+    }
+
+    .contact-content form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input, textarea {
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 12px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #thank-you {
+      color: green;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    #google-login, #logoutBtn {
+      margin: 10px;
+      padding: 10px 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="images/logo.png" alt="Logo" width="60">
+      <h1>Eazy-Ira Foundation</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="activities.html">Our Activities</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="team.html">Team</a></li>
+        <li><a href="donate.html">Donate</a></li>
+        <li><a href="children.html">Our Children</a></li>
+        <li><a href="volunteer.html">Volunteer</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="contact-section">
+    <div class="contact-content">
+      <h2>Contact Us</h2>
+      <button id="google-login">Sign in with Google</button>
+      <button id="logoutBtn" style="display:none;">Logout</button>
+
+      <div id="contact-form-area" style="display:none;">
+        <form id="contact-form">
+          <input type="text" id="name" placeholder="Your Full Name" required>
+          <textarea id="message" rows="6" placeholder="Write your message here..." required></textarea>
+          <button type="submit">Send Message</button>
+          <p id="thank-you"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAjtbrxK-SPZLH5YM9c3ON3cVrmiVS6Ns4",
+      authDomain: "eazyirawebsite.firebaseapp.com",
+      projectId: "eazyirawebsite",
+      storageBucket: "eazyirawebsite.appspot.com",
+      messagingSenderId: "447277975835",
+      appId: "1:447277975835:web:a196a3a51b4f4df857abbe"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    const loginBtn = document.getElementById("google-login");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const formArea = document.getElementById("contact-form-area");
+    const contactForm = document.getElementById("contact-form");
+    const thankYou = document.getElementById("thank-you");
+
+    loginBtn.onclick = () => {
+      auth.signInWithPopup(provider)
+        .then(result => console.log("Signed in", result.user))
+        .catch(err => alert("Login error: " + err.message));
+    };
+
+    logoutBtn.onclick = () => {
+      auth.signOut();
+    };
+
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        loginBtn.style.display = "none";
+        logoutBtn.style.display = "inline-block";
+        formArea.style.display = "block";
+      } else {
+        loginBtn.style.display = "inline-block";
+        logoutBtn.style.display = "none";
+        formArea.style.display = "none";
+      }
+    });
+
+    contactForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      thankYou.innerText = `Thank you ${name}, your message has been received.`;
+      contactForm.reset();
+    });
+  </script>
+</body>
+</html>

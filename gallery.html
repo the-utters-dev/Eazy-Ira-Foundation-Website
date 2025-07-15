@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery | Eazy-Ira Foundation</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="images/logo.png" />
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+      padding: 0;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-weight: bold;
+      color: #333;
+    }
+
+    section {
+      padding: 40px 20px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #4CAF50;
+      margin-bottom: 30px;
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .gallery-item {
+      max-width: 300px;
+      text-align: center;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .gallery-item p {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #444;
+    }
+
+    @media screen and (max-width: 600px) {
+      nav ul {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="images/logo.png" alt="Logo" width="60" />
+      <h1>Eazy-Ira Foundation</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="activities.html">Our Activities</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="team.html">Team</a></li>
+        <li><a href="donate.html">Donate</a></li>
+        <li><a href="children.html">Our Children</a></li>
+        <li><a href="volunteer.html">Volunteer</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section>
+    <h2>Gallery of Our Activities</h2>
+    <div class="gallery">
+      <div class="gallery-item">
+        <img src="images/gallery1.jpg" alt="Sabbath Fellowship" />
+        <p>Eazy-Ira Foundation Weekly Sabbath fellowship time</p>
+      </div>
+      <div class="gallery-item">
+        <img src="images/gallery2.jpg" alt="Sabbath Meal" />
+        <p>Eazy-Ira Foundation Weekly Sabbath meal</p>
+      </div>
+      <div class="gallery-item">
+        <img src="images/gallery3.jpg" alt="Family Visit" />
+        <p>Eazy-Ira Foundation visit children Families</p>
+      </div>
+      <div class="gallery-item">
+        <img src="images/gallery4.jpg" alt="Children Play" />
+        <p>Eazy-Ira Foundation children play</p>
+      </div>
+      <div class="gallery-item">
+        <img src="images/gallery5.jpg" alt="Love of Jesus" />
+        <p>Enjoying the love of Jesus</p>
+      </div>
+      <div class="gallery-item">
+        <img src="images/gallery6.jpg" alt="Games and Life" />
+        <p>Eazy-Ira Foundation, Games the Life of children</p>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

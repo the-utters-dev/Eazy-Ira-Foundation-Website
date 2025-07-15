@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Eazy-Ira Login</title>
+
+  <!-- ✅ Use the COMPATIBLE Firebase SDKs for plain HTML -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-auth-compat.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    #user-info, #secure-form {
+      display: none;
+      margin-top: 20px;
+    }
+    button {
+      margin: 5px;
+      padding: 8px 16px;
+    }
+    textarea {
+      width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Welcome to Eazy-Ira Foundation</h2>
+
+  <button id="loginBtn">Sign in with Google</button>
+  <button id="logoutBtn" style="display:none;">Logout</button>
+
+  <div id="user-info">
+    <p id="user-name"></p>
+    <p id="user-email"></p>
+  </div>
+
+  <form id="secure-form">
+    <h3>Contact Us</h3>
+    <textarea placeholder="Your message..." rows="4"></textarea><br>
+    <button type="submit">Send</button>
+  </form>
+
+  <script>
+    // ✅ Your Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyAjtbrxK-SPZLH5YM9c3ON3cVrmiVS6Ns4",
+      authDomain: "eazyirawebsite.firebaseapp.com",
+      projectId: "eazyirawebsite",
+      storageBucket: "eazyirawebsite.firebasestorage.app",
+      messagingSenderId: "447277975835",
+      appId: "1:447277975835:web:a196a3a51b4f4df857abbe"
+    };
+
+    // ✅ Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    // ✅ DOM Elements
+    const loginBtn = document.getElementById("loginBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const userInfoDiv = document.getElementById("user-info");
+    const form = document.getElementById("secure-form");
+
+    // ✅ Login Function
+    loginBtn.onclick = () => {
+      auth.signInWithPopup(provider)
+        .then(result => {
+          const user = result.user;
+          console.log("User logged in:", user);
+        })
+        .catch(error => {
+          alert("Login failed: " + error.message);
+          console.error("Login error:", error);
+        });
+    };
+
+    // ✅ Logout Function
+    logoutBtn.onclick = () => {
+      auth.signOut().then(() => {
+        console.log("User signed out.");
+      });
+    };
+
+    // ✅ Show/hide UI based on auth state
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById("user-name").textContent = `👤 Name: ${user.displayName}`;
+        document.getElementById("user-email").textContent = `📧 Email: ${user.email}`;
+        loginBtn.style.display = "none";
+        logoutBtn.style.display = "inline-block";
+        userInfoDiv.style.display = "block";
+        form.style.display = "block";
+      } else {
+        loginBtn.style.display = "inline-block";
+        logoutBtn.style.display = "none";
+        userInfoDiv.style.display = "none";
+        form.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
