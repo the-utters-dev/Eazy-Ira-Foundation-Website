@@ -71,6 +71,64 @@
         gap: 10px;
       }
     }
+
+    /* Floating Donate Button Styles */
+    #donation-toggle {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      font-size: 32px;
+      background-color: #6e00ff;
+      color: #fff;
+      padding: 15px 18px;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      z-index: 9999;
+    }
+
+    #donation-popup {
+      position: fixed;
+      bottom: 90px;
+      right: 25px;
+      width: 280px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+      padding: 20px;
+      display: none;
+      z-index: 9998;
+      font-family: Arial, sans-serif;
+    }
+
+    #donation-popup h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      color: #6e00ff;
+    }
+
+    #donation-popup input,
+    #donation-popup textarea {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    #donation-popup button {
+      width: 100%;
+      background-color: #6e00ff;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    #donation-popup button:hover {
+      background-color: #5500cc;
+    }
   </style>
 </head>
 <body>
@@ -100,5 +158,44 @@
     <br />
     <button onclick="location.href='donate.html'">Donate / Support Us</button>
   </section>
+
+  <!-- Floating Donation Button and Popup -->
+  <div id="donation-toggle" title="Support Us">🎁</div>
+
+  <div id="donation-popup">
+    <h3>Donate Eazy-Ira Foundation</h3>
+    <label>💵 Enter Amount ($)</label>
+    <input type="number" id="donation-amount" placeholder="e.g. 10" />
+
+    <label>👤 Your Name or Email</label>
+    <input type="text" id="donor-name" placeholder="e.g. john@example.com" />
+
+    <label>💬 Say something good</label>
+    <textarea id="donor-message" placeholder="Your words of encouragement..."></textarea>
+
+    <label><input type="checkbox" id="monthly-check" /> Make this monthly</label>
+
+    <button id="submit-donation">Donate Now</button>
+  </div>
+
+  <script>
+    const toggleBtn = document.getElementById("donation-toggle");
+    const popup = document.getElementById("donation-popup");
+
+    toggleBtn.addEventListener("click", () => {
+      popup.style.display = popup.style.display === "block" ? "none" : "block";
+    });
+
+    document.getElementById("submit-donation").addEventListener("click", () => {
+      const amount = document.getElementById("donation-amount").value;
+      const name = document.getElementById("donor-name").value;
+      const message = document.getElementById("donor-message").value;
+      const monthly = document.getElementById("monthly-check").checked;
+
+      alert(`Thank you ${name || "friend"} for donating $${amount}!\n\nMonthly: ${monthly ? "Yes" : "No"}\nMessage: ${message}`);
+
+      popup.style.display = "none";
+    });
+  </script>
 </body>
 </html>
