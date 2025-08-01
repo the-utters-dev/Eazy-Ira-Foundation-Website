@@ -6,12 +6,18 @@
   <title>About Us | Eazy-Ira Foundation</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="images/logo.png" />
+
+  <!-- Security Meta Tags -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline';">
+
   <style>
     body {
       font-family: sans-serif;
       margin: 0;
       padding: 0;
-      background-image: url('images/about-bg.jpg'); /* Replace with your image */
+      background-image: url('images/about-bg.jpg');
       background-size: cover;
       background-position: center;
       position: relative;
@@ -20,11 +26,9 @@
     body::before {
       content: "";
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(255, 255, 255, 0.85); /* light overlay */
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(255, 255, 255, 0.85);
       z-index: 0;
     }
 
@@ -39,6 +43,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 10px 20px;
+      flex-wrap: wrap;
     }
 
     .logo {
@@ -47,17 +52,58 @@
       gap: 10px;
     }
 
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
     nav ul {
       list-style: none;
       display: flex;
       gap: 15px;
       padding: 0;
+      margin: 0;
     }
 
     nav a {
       text-decoration: none;
       font-weight: bold;
       color: #333;
+    }
+
+    /* Hamburger Icon */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      padding: 10px;
+    }
+
+    .hamburger span {
+      height: 3px;
+      width: 25px;
+      background: #333;
+      margin: 4px 0;
+      border-radius: 3px;
+    }
+
+    @media screen and (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        gap: 10px;
+        display: none;
+        background: #f5f5f5;
+        padding: 10px;
+        width: 100%;
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
     }
 
     section {
@@ -70,6 +116,12 @@
     h2 {
       color: #4CAF50;
       margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 16px;
+      color: #333;
+      line-height: 1.6;
     }
 
     .motto {
@@ -94,10 +146,78 @@
       background-color: #45a049;
     }
 
+    /* 🎁 Floating Donation Widget */
+    .donate-widget-btn {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background-color: #e91e63;
+      color: white;
+      font-size: 26px;
+      border: none;
+      border-radius: 50%;
+      width: 65px;
+      height: 65px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+    }
+
+    .donate-widget-box {
+      position: fixed;
+      bottom: 100px;
+      right: 25px;
+      background: #fff;
+      color: #333;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+      padding: 16px;
+      width: 280px;
+      display: none;
+      z-index: 999;
+    }
+
+    .donate-widget-box h3 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      color: #4CAF50;
+    }
+
+    .donate-widget-box input,
+    .donate-widget-box textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .donate-widget-box button {
+      width: 100%;
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      border: none;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .donate-widget-box label {
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     @media screen and (max-width: 600px) {
-      nav ul {
-        flex-direction: column;
-        gap: 10px;
+      .donate-widget-box {
+        width: 90%;
+        right: 5%;
       }
     }
   </style>
@@ -108,8 +228,13 @@
       <img src="images/logo.png" alt="Logo" width="60" />
       <h1>Eazy-Ira Foundation</h1>
     </div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
     <nav>
-      <ul>
+      <ul id="navLinks">
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="activities.html">Our Activities</a></li>
@@ -148,5 +273,34 @@
       Click here to read more about Eazy-Ira Foundation
     </a>
   </section>
+
+  <!-- 🎁 Floating Donation Widget -->
+  <button class="donate-widget-btn" onclick="toggleDonateBox()" aria-label="Donate Button">🎁</button>
+
+  <div class="donate-widget-box" id="donateBox">
+    <h3>Donate Eazy-Ira Foundation</h3>
+    <input type="number" placeholder="Enter Amount in $" />
+    <input type="text" placeholder="Name / Email / Contact" />
+    <textarea rows="3" placeholder="Say something good..."></textarea>
+    <label><input type="checkbox"> Make this monthly</label>
+    <button onclick="submitDonation()">Send Support</button>
+  </div>
+
+  <script>
+    function toggleDonateBox() {
+      const box = document.getElementById('donateBox');
+      box.style.display = box.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function submitDonation() {
+      alert("Thank you for supporting Eazy-Ira Foundation!");
+      document.getElementById('donateBox').style.display = 'none';
+    }
+
+    function toggleMenu() {
+      const nav = document.getElementById("navLinks");
+      nav.classList.toggle("active");
+    }
+  </script>
 </body>
 </html>
