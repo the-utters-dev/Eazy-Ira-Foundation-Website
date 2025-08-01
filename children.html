@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Our Children | Eazy-Ira Foundation</title>
   <link rel="stylesheet" href="style.css" />
@@ -11,14 +12,29 @@
       font-family: sans-serif;
       margin: 0;
       padding: 0;
+      background: url('images/children-bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+      color: #333;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(255, 255, 255, 0.85);
+      z-index: -1;
     }
 
     header {
-      background-color: #f5f5f5;
+      background-color: rgba(245, 245, 245, 0.95);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 10px 20px;
+      position: relative;
+      z-index: 10;
     }
 
     .logo {
@@ -32,6 +48,7 @@
       display: flex;
       gap: 15px;
       padding: 0;
+      margin: 0;
     }
 
     nav a {
@@ -40,36 +57,52 @@
       color: #333;
     }
 
+    /* Hamburger Menu Button */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+      width: 25px;
+      height: 20px;
+    }
+    .hamburger div {
+      width: 100%;
+      height: 3px;
+      background-color: #333;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    /* Mobile Styles */
+    @media screen and (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        background-color: rgba(245, 245, 245, 0.95);
+        position: absolute;
+        top: 55px;
+        right: 20px;
+        width: 180px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        display: none;
+      }
+      nav ul.active {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+    }
+
     .children-section {
       padding: 80px 20px;
       text-align: center;
-      background-image: url('images/children-bg.jpg'); /* Replace with your image */
-      background-size: cover;
-      background-position: center;
       position: relative;
-    }
-
-    .children-section::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      background-color: rgba(255, 255, 255, 0.85); /* semi-transparent white overlay */
-      z-index: 0;
-    }
-
-    .children-content {
-      position: relative;
-      z-index: 1;
       max-width: 800px;
       margin: auto;
-    }
-
-    h2 {
-      color: #4CAF50;
-      margin-bottom: 30px;
+      z-index: 5;
     }
 
     .access-button {
@@ -81,17 +114,78 @@
       border-radius: 6px;
       cursor: pointer;
       text-decoration: none;
+      display: inline-block;
+      transition: background-color 0.3s;
     }
 
-    .access-button:hover {
+    .access-button:hover,
+    .access-button:focus {
       background-color: #45a049;
     }
 
-    @media screen and (max-width: 600px) {
-      nav ul {
-        flex-direction: column;
-        gap: 10px;
-      }
+    /* Donation Widget Styles */
+    .donate-widget-btn {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background-color: #e91e63;
+      color: white;
+      font-size: 28px;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+
+    .donate-widget-box {
+      position: fixed;
+      bottom: 95px;
+      right: 25px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 15px;
+      width: 280px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+      display: none;
+      z-index: 1000;
+    }
+
+    .donate-widget-box h3 {
+      margin-top: 0;
+      color: #4CAF50;
+      font-size: 18px;
+    }
+
+    .donate-widget-box input,
+    .donate-widget-box textarea {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      font-size: 14px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .donate-widget-box button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      border: none;
+      width: 100%;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .donate-widget-box label {
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
   </style>
 </head>
@@ -101,8 +195,9 @@
       <img src="images/logo.png" alt="Logo" width="60" />
       <h1>Eazy-Ira Foundation</h1>
     </div>
+
     <nav>
-      <ul>
+      <ul id="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="activities.html">Our Activities</a></li>
@@ -114,15 +209,62 @@
         <li><a href="contact.html">Contact</a></li>
       </ul>
     </nav>
+
+    <div class="hamburger" id="hamburger" aria-label="Toggle menu" role="button" tabindex="0">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
   </header>
 
   <section class="children-section">
-    <div class="children-content">
-      <h2>Access Our Children's Data</h2>
-      <a class="access-button" href="https://docs.google.com/spreadsheets/d/1k254XeT65GxUyz7gj3IN4FIGpX_BC1pLLWm0ZTmIWrg/edit?usp=sharing" target="_blank">
-        Access Our Children's Data
-      </a>
-    </div>
+    <h2>Access Our Children's Data</h2>
+    <a
+      class="access-button"
+      href="https://docs.google.com/spreadsheets/d/1k254XeT65GxUyz7gj3IN4FIGpX_BC1pLLWm0ZTmIWrg/edit?usp=sharing"
+      target="_blank" rel="noopener noreferrer"
+      >Access Our Children's Data</a
+    >
   </section>
+
+  <!-- 🧾 Floating Donate Widget -->
+  <button class="donate-widget-btn" onclick="toggleDonateBox()" aria-label="Donate Button">🎁</button>
+  <div class="donate-widget-box" id="donateBox" role="region" aria-label="Donation form">
+    <h3>Donate Eazy-Ira Foundation</h3>
+    <input type="number" placeholder="Enter Amount in $" aria-label="Donation amount" />
+    <input type="text" placeholder="Name / Email / Contact" aria-label="Donor name or contact" />
+    <textarea rows="3" placeholder="Say something good..." aria-label="Message"></textarea>
+    <label><input type="checkbox" /> Make this monthly</label>
+    <button onclick="submitDonation()">Send Support</button>
+  </div>
+
+  <script>
+    // Hamburger toggle
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    // Accessibility toggle with keyboard
+    hamburger.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        navLinks.classList.toggle('active');
+      }
+    });
+
+    // Donation widget toggle
+    function toggleDonateBox() {
+      const box = document.getElementById('donateBox');
+      box.style.display = box.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function submitDonation() {
+      alert("Thank you for supporting Eazy-Ira Foundation!");
+      document.getElementById('donateBox').style.display = 'none';
+    }
+  </script>
 </body>
 </html>
