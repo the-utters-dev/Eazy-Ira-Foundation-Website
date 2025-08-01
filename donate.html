@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Donate | Eazy-Ira Foundation</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="images/logo.png" />
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="icon" href="images/logo.png"/>
   <style>
     body {
       font-family: sans-serif;
@@ -19,6 +19,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 10px 20px;
+      flex-wrap: wrap;
     }
 
     .logo {
@@ -27,11 +28,17 @@
       gap: 10px;
     }
 
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
     nav ul {
       list-style: none;
       display: flex;
       gap: 15px;
       padding: 0;
+      margin: 0;
     }
 
     nav a {
@@ -40,10 +47,25 @@
       color: #333;
     }
 
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      padding: 10px;
+    }
+
+    .hamburger span {
+      height: 3px;
+      width: 25px;
+      background: #333;
+      margin-bottom: 4px;
+      border-radius: 5px;
+    }
+
     .donation-section {
       padding: 60px 20px;
       text-align: center;
-      background-image: url('images/donate-bg.jpg'); /* Replace this image */
+      background-image: url('images/donate-bg.jpg');
       background-size: cover;
       background-position: center;
       position: relative;
@@ -56,7 +78,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(255,255,255,0.85); /* Transparent white overlay */
+      background-color: rgba(255,255,255,0.85);
       z-index: 0;
     }
 
@@ -72,6 +94,7 @@
       font-size: 18px;
       color: #333;
       margin-bottom: 30px;
+      line-height: 1.6;
     }
 
     .donate-box {
@@ -84,7 +107,7 @@
     }
 
     .donate-box h3 {
-      color: #333;
+      color: #4CAF50;
       margin-bottom: 10px;
     }
 
@@ -94,10 +117,31 @@
       margin: 8px 0;
     }
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 768px) {
       nav ul {
+        display: none;
         flex-direction: column;
-        gap: 10px;
+        background-color: #f5f5f5;
+        width: 100%;
+        padding: 10px 0;
+      }
+
+      nav ul.show {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      nav {
+        width: 100%;
+        justify-content: flex-end;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   </style>
@@ -105,11 +149,16 @@
 <body>
   <header>
     <div class="logo">
-      <img src="images/logo.png" alt="Logo" width="60" />
+      <img src="images/logo.png" alt="Logo" width="60"/>
       <h1>Eazy-Ira Foundation</h1>
     </div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
     <nav>
-      <ul>
+      <ul id="navMenu">
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="activities.html">Our Activities</a></li>
@@ -126,20 +175,27 @@
   <section class="donation-section">
     <div class="donation-content">
       <div class="motivation">
-        Love in Action, Hope in Every Child.<br />
-        Your compassionate support can change a child’s life.<br />
-        Will you join us?<br />
+        Love in Action, Hope in Every Child.<br>
+        Your compassionate support can change a child’s life.<br>
+        Will you join us?<br>
         Be the reason a child smiles, learns, and dreams again.
       </div>
 
       <div class="donate-box">
         <h3>Donation Options:</h3>
         <p><strong>Bank Account:</strong> Equity Bank - 4015101194784</p>
-        <p><strong>MoMo Pay:</strong> 0788694662</p>
+        <p><strong>MoMo Pay:</strong> +250 788 694 662</p>
         <p><strong>MoMo Code:</strong> 1446124</p>
+        <p><strong>Email (PayPal or direct contact):</strong> <a href="mailto:eazyiraf@gmail.com">eazyiraf@gmail.com</a></p>
         <p><em>Registered on HIMBAZA Henriette</em></p>
       </div>
     </div>
   </section>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("navMenu").classList.toggle("show");
+    }
+  </script>
 </body>
 </html>
