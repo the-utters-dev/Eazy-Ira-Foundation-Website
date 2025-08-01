@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gallery | Eazy-Ira Foundation</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="images/logo.png" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://www.instagram.com; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline';" />
   <style>
     body {
       font-family: sans-serif;
@@ -19,6 +21,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 10px 20px;
+      position: relative;
     }
 
     .logo {
@@ -32,6 +35,7 @@
       display: flex;
       gap: 15px;
       padding: 0;
+      margin: 0;
     }
 
     nav a {
@@ -40,8 +44,48 @@
       color: #333;
     }
 
+    /* Hamburger menu button */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      width: 28px;
+      height: 22px;
+      justify-content: space-between;
+    }
+    .hamburger div {
+      background-color: #333;
+      height: 4px;
+      border-radius: 2px;
+    }
+
+    /* Responsive nav menu */
+    @media screen and (max-width: 768px) {
+      nav ul {
+        display: none;
+        flex-direction: column;
+        background-color: #f5f5f5;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        width: 180px;
+        padding: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        border-radius: 8px;
+        z-index: 999;
+      }
+      nav ul.show {
+        display: flex;
+      }
+      .hamburger {
+        display: flex;
+      }
+    }
+
     section {
       padding: 40px 20px;
+      max-width: 960px;
+      margin: auto;
     }
 
     h2 {
@@ -75,11 +119,82 @@
       color: #444;
     }
 
-    @media screen and (max-width: 600px) {
-      nav ul {
-        flex-direction: column;
-        gap: 10px;
-      }
+    /* Instagram button */
+    .instagram-link {
+      display: block;
+      width: 220px;
+      margin: 40px auto 20px auto;
+      padding: 12px 20px;
+      background-color: #E1306C;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+      border-radius: 8px;
+      text-decoration: none;
+      box-shadow: 0 3px 8px rgba(225,48,108,0.6);
+      transition: background-color 0.3s ease;
+    }
+    .instagram-link:hover,
+    .instagram-link:focus {
+      background-color: #B02357;
+    }
+
+    /* Floating Donate Button Styles */
+    #donation-toggle {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      font-size: 32px;
+      background-color: #6e00ff;
+      color: #fff;
+      padding: 15px 18px;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      z-index: 9999;
+    }
+
+    #donation-popup {
+      position: fixed;
+      bottom: 90px;
+      right: 25px;
+      width: 280px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+      padding: 20px;
+      display: none;
+      z-index: 9998;
+      font-family: Arial, sans-serif;
+    }
+
+    #donation-popup h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      color: #6e00ff;
+    }
+
+    #donation-popup input,
+    #donation-popup textarea {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    #donation-popup button {
+      width: 100%;
+      background-color: #6e00ff;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    #donation-popup button:hover {
+      background-color: #5500cc;
     }
   </style>
 </head>
@@ -90,6 +205,11 @@
       <h1>Eazy-Ira Foundation</h1>
     </div>
     <nav>
+      <div class="hamburger" aria-label="Toggle navigation menu" role="button" tabindex="0">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About Us</a></li>
@@ -132,6 +252,88 @@
         <p>Eazy-Ira Foundation, Games the Life of children</p>
       </div>
     </div>
+
+    <!-- Instagram link button -->
+    <a href="https://www.instagram.com/iraoffcial?igsh=MWczaGNsYWdncmlyYw==" target="_blank" rel="noopener noreferrer" class="instagram-link" aria-label="Visit Eazy-Ira Foundation Instagram page">
+      View More on Instagram
+    </a>
   </section>
+
+  <!-- Floating Donation Button and Popup -->
+  <div id="donation-toggle" title="Support Us" role="button" tabindex="0" aria-label="Open donation form">🎁</div>
+
+  <div id="donation-popup" role="dialog" aria-modal="true" aria-labelledby="donation-popup-title">
+    <h3 id="donation-popup-title">Donate Eazy-Ira Foundation</h3>
+    <label for="donation-amount">💵 Enter Amount ($)</label>
+    <input type="number" id="donation-amount" placeholder="e.g. 10" min="1" />
+
+    <label for="donor-name">👤 Your Name or Email</label>
+    <input type="text" id="donor-name" placeholder="e.g. john@example.com" />
+
+    <label for="donor-message">💬 Say something good</label>
+    <textarea id="donor-message" placeholder="Your words of encouragement..."></textarea>
+
+    <label><input type="checkbox" id="monthly-check" /> Make this monthly</label>
+
+    <button id="submit-donation">Donate Now</button>
+  </div>
+
+  <script>
+    const toggleBtn = document.getElementById("donation-toggle");
+    const popup = document.getElementById("donation-popup");
+
+    toggleBtn.addEventListener("click", () => {
+      popup.style.display = popup.style.display === "block" ? "none" : "block";
+    });
+
+    // Basic client-side validation and sanitization for donation form
+    function sanitizeInput(str) {
+      const temp = document.createElement('div');
+      temp.textContent = str;
+      return temp.innerHTML;
+    }
+
+    document.getElementById("submit-donation").addEventListener("click", () => {
+      let amount = document.getElementById("donation-amount").value.trim();
+      let name = sanitizeInput(document.getElementById("donor-name").value.trim());
+      let message = sanitizeInput(document.getElementById("donor-message").value.trim());
+      const monthly = document.getElementById("monthly-check").checked;
+
+      if (!amount || amount <= 0) {
+        alert("Please enter a valid donation amount.");
+        return;
+      }
+      if (!name) {
+        alert("Please enter your name or email.");
+        return;
+      }
+
+      alert(`Thank you ${name} for donating $${amount}!\n\nMonthly: ${monthly ? "Yes" : "No"}\nMessage: ${message}`);
+
+      popup.style.display = "none";
+
+      // Clear form inputs
+      document.getElementById("donation-amount").value = "";
+      document.getElementById("donor-name").value = "";
+      document.getElementById("donor-message").value = "";
+      document.getElementById("monthly-check").checked = false;
+    });
+
+    // Hamburger menu toggle
+    const hamburger = document.querySelector(".hamburger");
+    const navMenu = document.querySelector("nav ul");
+
+    hamburger.addEventListener("click", () => {
+      navMenu.classList.toggle("show");
+    });
+
+    // Keyboard accessibility for hamburger
+    hamburger.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        navMenu.classList.toggle("show");
+        e.preventDefault();
+      }
+    });
+  </script>
 </body>
 </html>
