@@ -1,14 +1,13 @@
-<!-- contact.html (1 of 2): With real Google login, background image, and message form -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Contact Us | Eazy-Ira Foundation</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="images/logo.png">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="images/logo.png" />
 
-  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-auth-compat.js"></script>
 
@@ -17,104 +16,156 @@
       font-family: sans-serif;
       margin: 0;
       padding: 0;
+      background: url('images/contact-bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+      color: #333;
     }
-
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(255, 255, 255, 0.85);
+      z-index: -1;
+    }
     header {
-      background-color: #f5f5f5;
+      background-color: rgba(245, 245, 245, 0.95);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 10px 20px;
+      position: relative;
+      z-index: 10;
     }
-
     .logo {
       display: flex;
       align-items: center;
       gap: 10px;
     }
-
     nav ul {
       list-style: none;
       display: flex;
       gap: 15px;
       padding: 0;
+      margin: 0;
     }
-
     nav a {
       text-decoration: none;
       font-weight: bold;
       color: #333;
     }
-
     .contact-section {
-      background-image: url('images/contact-bg.jpg'); /* Your background image */
-      background-size: cover;
-      background-position: center;
       position: relative;
       padding: 100px 20px;
-      text-align: center;
-    }
-
-    .contact-section::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-color: rgba(255, 255, 255, 0.85);
-      z-index: 0;
-    }
-
-    .contact-content {
-      position: relative;
-      z-index: 1;
       max-width: 600px;
       margin: auto;
+      text-align: center;
+      z-index: 5;
     }
-
     .contact-content h2 {
       color: #4CAF50;
       margin-bottom: 20px;
     }
-
-    .contact-content form {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
+    button, input, textarea {
+      font-size: 16px;
+      border-radius: 5px;
     }
-
     input, textarea {
       padding: 12px;
       border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 16px;
+      width: 100%;
+      margin-bottom: 15px;
+      box-sizing: border-box;
     }
-
     button {
       padding: 12px;
       background-color: #4CAF50;
       color: white;
       border: none;
-      border-radius: 5px;
       font-weight: bold;
       cursor: pointer;
+      transition: background-color 0.3s ease;
     }
-
+    button:hover, button:focus {
+      background-color: #45a049;
+    }
     #thank-you {
       color: green;
       font-weight: bold;
       margin-top: 10px;
     }
-
     #google-login, #logoutBtn {
-      margin: 10px;
+      margin: 10px 5px;
       padding: 10px 20px;
+      background-color: #4285F4;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    #logoutBtn {
+      background-color: #db4437;
+    }
+    #donation-toggle {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      font-size: 32px;
+      background-color: #6e00ff;
+      color: #fff;
+      padding: 15px 18px;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      z-index: 9999;
+    }
+    #donation-popup {
+      position: fixed;
+      bottom: 90px;
+      right: 25px;
+      width: 280px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+      padding: 20px;
+      display: none;
+      z-index: 9998;
+      font-family: Arial, sans-serif;
+    }
+    #donation-popup h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      color: #6e00ff;
+    }
+    #donation-popup input,
+    #donation-popup textarea {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    #donation-popup button {
+      width: 100%;
+      background-color: #6e00ff;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    #donation-popup button:hover {
+      background-color: #5500cc;
     }
   </style>
 </head>
 <body>
   <header>
     <div class="logo">
-      <img src="images/logo.png" alt="Logo" width="60">
+      <img src="images/logo.png" alt="Logo" width="60" />
       <h1>Eazy-Ira Foundation</h1>
     </div>
     <nav>
@@ -135,21 +186,41 @@
   <section class="contact-section">
     <div class="contact-content">
       <h2>Contact Us</h2>
-      <button id="google-login">Sign in with Google</button>
-      <button id="logoutBtn" style="display:none;">Logout</button>
+      <button id="google-login" aria-label="Sign in with Google">Sign in with Google</button>
+      <button id="logoutBtn" style="display:none;" aria-label="Logout">Logout</button>
 
       <div id="contact-form-area" style="display:none;">
-        <form id="contact-form">
-          <input type="text" id="name" placeholder="Your Full Name" required>
-          <textarea id="message" rows="6" placeholder="Write your message here..." required></textarea>
+        <form id="contact-form" aria-label="Contact form">
+          <input type="text" id="name" placeholder="Your Full Name" required aria-required="true" />
+          <textarea id="message" rows="6" placeholder="Write your message here..." required aria-required="true"></textarea>
           <button type="submit">Send Message</button>
-          <p id="thank-you"></p>
+          <p id="thank-you" role="alert" aria-live="polite"></p>
         </form>
       </div>
     </div>
   </section>
 
+  <!-- Floating Donation Button and Popup -->
+  <div id="donation-toggle" title="Support Us" role="button" tabindex="0" aria-label="Open donation popup">🎁</div>
+
+  <div id="donation-popup" role="dialog" aria-modal="true" aria-labelledby="donation-title">
+    <h3 id="donation-title">Donate Eazy-Ira Foundation</h3>
+    <label for="donation-amount">💵 Enter Amount ($)</label>
+    <input type="number" id="donation-amount" placeholder="e.g. 10" aria-required="true" />
+
+    <label for="donor-name">👤 Your Name or Email</label>
+    <input type="text" id="donor-name" placeholder="e.g. john@example.com" aria-required="true" />
+
+    <label for="donor-message">💬 Say something good</label>
+    <textarea id="donor-message" placeholder="Your words of encouragement..." rows="3"></textarea>
+
+    <label><input type="checkbox" id="monthly-check" /> Make this monthly</label>
+
+    <button id="submit-donation">Donate Now</button>
+  </div>
+
   <script>
+    // Firebase config and initialization
     const firebaseConfig = {
       apiKey: "AIzaSyAjtbrxK-SPZLH5YM9c3ON3cVrmiVS6Ns4",
       authDomain: "eazyirawebsite.firebaseapp.com",
@@ -158,7 +229,6 @@
       messagingSenderId: "447277975835",
       appId: "1:447277975835:web:a196a3a51b4f4df857abbe"
     };
-
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -188,14 +258,52 @@
         loginBtn.style.display = "inline-block";
         logoutBtn.style.display = "none";
         formArea.style.display = "none";
+        thankYou.textContent = "";
       }
     });
 
     contactForm.addEventListener("submit", function(e) {
       e.preventDefault();
-      const name = document.getElementById("name").value;
+      const name = document.getElementById("name").value.trim();
       thankYou.innerText = `Thank you ${name}, your message has been received.`;
       contactForm.reset();
+    });
+
+    // Donation popup toggle
+    const toggleBtn = document.getElementById("donation-toggle");
+    const popup = document.getElementById("donation-popup");
+
+    toggleBtn.addEventListener("click", () => {
+      popup.style.display = popup.style.display === "block" ? "none" : "block";
+    });
+
+    toggleBtn.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        popup.style.display = popup.style.display === "block" ? "none" : "block";
+      }
+    });
+
+    document.getElementById("submit-donation").addEventListener("click", () => {
+      const amount = document.getElementById("donation-amount").value;
+      const name = document.getElementById("donor-name").value.trim();
+      const message = document.getElementById("donor-message").value.trim();
+      const monthly = document.getElementById("monthly-check").checked;
+
+      if (!amount || amount <= 0) {
+        alert("Please enter a valid donation amount.");
+        return;
+      }
+
+      alert(`Thank you ${name || "friend"} for donating $${amount}!\n\nMonthly: ${monthly ? "Yes" : "No"}\nMessage: ${message}`);
+
+      popup.style.display = "none";
+
+      // Optionally, reset donation form fields
+      document.getElementById("donation-amount").value = "";
+      document.getElementById("donor-name").value = "";
+      document.getElementById("donor-message").value = "";
+      document.getElementById("monthly-check").checked = false;
     });
   </script>
 </body>
