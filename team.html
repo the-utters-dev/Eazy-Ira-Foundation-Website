@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<!-- START OF EDITED TEAM PAGE -->
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -7,18 +8,31 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="images/logo.png" />
   <style>
+    /* (Styles remain unchanged, keeping your layout consistent) */
     body {
-      font-family: sans-serif;
       margin: 0;
-      padding: 0;
+      font-family: sans-serif;
+      background: url('images/bg1.jpg') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: -1;
     }
 
     header {
-      background-color: #f5f5f5;
+      background-color: rgba(255, 255, 255, 0.9);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 10px 20px;
+      flex-wrap: wrap;
     }
 
     .logo {
@@ -27,11 +41,18 @@
       gap: 10px;
     }
 
+    .menu-icon {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
     nav ul {
       list-style: none;
       display: flex;
       gap: 15px;
       padding: 0;
+      margin: 0;
     }
 
     nav a {
@@ -42,11 +63,12 @@
 
     section {
       padding: 40px 20px;
+      color: white;
     }
 
     h2 {
       text-align: center;
-      color: #4CAF50;
+      color: #00e676;
       margin-bottom: 30px;
     }
 
@@ -61,6 +83,9 @@
     .team-member {
       text-align: center;
       max-width: 180px;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 10px;
     }
 
     .team-member img {
@@ -75,18 +100,38 @@
       margin-top: 10px;
       margin-bottom: 5px;
       font-size: 16px;
+      color: #00e676;
     }
 
     .team-member p {
       margin: 0;
-      color: #666;
+      color: #ccc;
       font-size: 14px;
     }
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 768px) {
       nav ul {
         flex-direction: column;
-        gap: 10px;
+        display: none;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.95);
+        position: absolute;
+        top: 70px;
+        left: 0;
+        padding: 15px 0;
+      }
+
+      nav ul.show {
+        display: flex;
+      }
+
+      .menu-icon {
+        display: block;
+        color: #333;
+      }
+
+      header {
+        position: relative;
       }
     }
   </style>
@@ -97,8 +142,9 @@
       <img src="images/logo.png" alt="Logo" width="60" />
       <h1>Eazy-Ira Foundation</h1>
     </div>
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
     <nav>
-      <ul>
+      <ul id="nav-list">
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="activities.html">Our Activities</a></li>
@@ -115,7 +161,6 @@
   <section>
     <h2>Our Team</h2>
 
-    <!-- Director & Vice Director -->
     <div class="team-row">
       <div class="team-member">
         <img src="images/ABAYIKUNDA_Paterne.jpg" alt="ABAYIKUNDA Paterne" />
@@ -129,7 +174,6 @@
       </div>
     </div>
 
-    <!-- Treasurer, Media, Secretary -->
     <div class="team-row">
       <div class="team-member">
         <img src="images/HIMBAZA_Henriette.jpg" alt="HIMBAZA Henriette" />
@@ -139,7 +183,7 @@
       <div class="team-member">
         <img src="images/DUKUDANE_Pastor.jpg" alt="DUKUDANE Pastor" />
         <h4>DUKUDANE Pastor</h4>
-        <p>Media & Communication Officer</p>
+        <p>Chairman, Media & Communication Officer</p>
       </div>
       <div class="team-member">
         <img src="images/UWAYO_Afia.jpg" alt="UWAYO Afia" />
@@ -148,13 +192,7 @@
       </div>
     </div>
 
-    <!-- Advisors -->
     <div class="team-row">
-      <div class="team-member">
-        <img src="images/NIYOMUGISHA_Samuel.jpg" alt="NIYOMUGISHA Samuel" />
-        <h4>NIYOMUGISHA Samuel</h4>
-        <p>Advisor</p>
-      </div>
       <div class="team-member">
         <img src="images/HAKIZIMANA_Jean_Claude.jpg" alt="HAKIZIMANA Jean Claude" />
         <h4>HAKIZIMANA Jean Claude</h4>
@@ -180,12 +218,15 @@
         <h4>NIYONIZEYE Bernabe</h4>
         <p>Advisor</p>
       </div>
-      <div class="team-member">
-        <img src="images/MUZURI_Esperance.jpg" alt="MUZURI Esperance" />
-        <h4>MUZURI Esperance</h4>
-        <p>Advisor</p>
-      </div>
     </div>
   </section>
+
+  <script>
+    function toggleMenu() {
+      const navList = document.getElementById('nav-list');
+      navList.classList.toggle('show');
+    }
+  </script>
 </body>
 </html>
+<!-- END OF EDITED TEAM PAGE -->

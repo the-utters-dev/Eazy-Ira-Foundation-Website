@@ -1,14 +1,16 @@
-<!-- volunteer.html: With Google Sign-In, extra questions, dropdowns, and background image -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Volunteer | Eazy-Ira Foundation</title>
-  <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="images/logo.png" />
+
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-auth-compat.js"></script>
+
   <style>
     body {
       font-family: sans-serif;
@@ -22,6 +24,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 10px 20px;
+      position: relative;
     }
 
     .logo {
@@ -35,12 +38,49 @@
       display: flex;
       gap: 15px;
       padding: 0;
+      margin: 0;
     }
 
     nav a {
       text-decoration: none;
       font-weight: bold;
       color: #333;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      height: 3px;
+      width: 25px;
+      background: #333;
+      margin: 4px 0;
+    }
+
+    @media screen and (max-width: 768px) {
+      nav ul {
+        display: none;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        background: #f5f5f5;
+        flex-direction: column;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        z-index: 999;
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
     }
 
     .volunteer-section {
@@ -105,8 +145,37 @@
       font-weight: bold;
       margin-top: 10px;
     }
+
+    .donate-box {
+      margin-top: 50px;
+      text-align: center;
+    }
+
+    .donate-box h3 {
+      color: #4CAF50;
+    }
+
+    .donate-circle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px;
+      height: 80px;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 50%;
+      text-decoration: none;
+      font-size: 30px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .donate-circle:hover {
+      background-color: #388E3C;
+    }
   </style>
 </head>
+
 <body>
   <header>
     <div class="logo">
@@ -114,7 +183,12 @@
       <h1>Eazy-Ira Foundation</h1>
     </div>
     <nav>
-      <ul>
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <ul id="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="activities.html">Our Activities</a></li>
@@ -136,28 +210,24 @@
 
       <form id="volunteer-form" style="display:none;">
         <input type="text" name="name" placeholder="Full Name" required />
-
         <div>
           <label>Date of Birth:</label><br />
           <select name="dob-day" required><option value="">Day</option></select>
           <select name="dob-month" required><option value="">Month</option></select>
           <select name="dob-year" required><option value="">Year</option></select>
         </div>
-
         <select name="gender" required>
           <option value="">-- Gender --</option>
           <option>Male</option>
           <option>Female</option>
           <option>Other</option>
         </select>
-
         <select name="age" required>
           <option value="">-- Age Range --</option>
           <option>18–25</option>
           <option>26–40</option>
           <option>41 and above</option>
         </select>
-
         <input type="text" name="occupation" placeholder="Occupation" required />
         <input type="text" name="marital" placeholder="Marital Status" required />
         <input type="text" name="education" placeholder="Education Level" required />
@@ -168,7 +238,6 @@
         <input type="text" name="facebook" placeholder="Facebook (Optional)" />
         <input type="text" name="tiktok" placeholder="TikTok (Optional)" />
         <input type="text" name="instagram" placeholder="Instagram (Optional)" />
-
         <select name="sabbath" required>
           <option value="">Can you attend Sabbath sections?</option>
           <option>I can try</option>
@@ -177,7 +246,6 @@
           <option>I can not manage to attend all sections</option>
           <option>I don't know</option>
         </select>
-
         <select name="referrer" required>
           <option value="">How did you hear about us?</option>
           <option>Social Media</option>
@@ -186,14 +254,17 @@
           <option>Community Event</option>
           <option>Other</option>
         </select>
-
         <textarea name="interest" rows="5" placeholder="Why do you want to volunteer? (min 2 paragraphs)" required></textarea>
-
         <textarea name="experience" rows="6" placeholder="What are your experiences and skills in working with children? (min 3 paragraphs)" required></textarea>
-
         <button type="submit">Submit Application</button>
         <p id="thank-you"></p>
       </form>
+
+      <div class="donate-box">
+        <h3>Support Our Mission</h3>
+        <p>Your donation helps us reach and uplift more children.</p>
+        <a href="donate.html" class="donate-circle" title="Donate Now 💚">💚</a>
+      </div>
     </div>
   </section>
 
@@ -216,24 +287,13 @@
     const form = document.getElementById("volunteer-form");
     const thankYou = document.getElementById("thank-you");
 
-    loginBtn.onclick = () => {
-      auth.signInWithPopup(provider);
-    };
-
-    logoutBtn.onclick = () => {
-      auth.signOut();
-    };
+    loginBtn.onclick = () => auth.signInWithPopup(provider);
+    logoutBtn.onclick = () => auth.signOut();
 
     auth.onAuthStateChanged(user => {
-      if (user) {
-        loginBtn.style.display = "none";
-        logoutBtn.style.display = "inline-block";
-        form.style.display = "block";
-      } else {
-        loginBtn.style.display = "inline-block";
-        logoutBtn.style.display = "none";
-        form.style.display = "none";
-      }
+      loginBtn.style.display = user ? "none" : "inline-block";
+      logoutBtn.style.display = user ? "inline-block" : "none";
+      form.style.display = user ? "block" : "none";
     });
 
     form.addEventListener("submit", function(e) {
@@ -243,15 +303,19 @@
       form.reset();
     });
 
-    // Populate date dropdowns
+    // Populate DOB dropdowns
     const day = form.elements['dob-day'];
     const month = form.elements['dob-month'];
     const year = form.elements['dob-year'];
-
     for (let d = 1; d <= 31; d++) day.innerHTML += `<option>${d}</option>`;
-    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    months.forEach(m => month.innerHTML += `<option>${m}</option>`);
+    ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].forEach(m => month.innerHTML += `<option>${m}</option>`);
     for (let y = 1980; y <= 2010; y++) year.innerHTML += `<option>${y}</option>`;
+
+    // Toggle nav menu on mobile
+    function toggleMenu() {
+      const navLinks = document.getElementById("nav-links");
+      navLinks.classList.toggle("active");
+    }
   </script>
 </body>
 </html>
