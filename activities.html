@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Our Activities | Eazy-Ira Foundation</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="images/logo.png" />
@@ -15,7 +15,6 @@
       background-size: cover;
       color: white;
       position: relative;
-      z-index: 0;
     }
 
     body::before {
@@ -30,18 +29,23 @@
     }
 
     header {
-      background-color: rgba(255, 255, 255, 0.9);
+      background-color: rgba(255, 255, 255, 0.95);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 10px 20px;
       color: #333;
+      position: relative;
     }
 
     .logo {
       display: flex;
       align-items: center;
       gap: 10px;
+    }
+
+    nav {
+      display: flex;
     }
 
     nav ul {
@@ -56,6 +60,41 @@
       text-decoration: none;
       font-weight: bold;
       color: #333;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+
+    .hamburger span {
+      height: 4px;
+      width: 25px;
+      background: #333;
+      border-radius: 2px;
+    }
+
+    @media screen and (max-width: 768px) {
+      nav ul {
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background-color: white;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        display: none;
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
     }
 
     section {
@@ -94,18 +133,85 @@
       cursor: pointer;
     }
 
-    @media screen and (max-width: 600px) {
-      nav ul {
-        flex-direction: column;
-        gap: 10px;
-      }
+    .donate-widget-btn {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background-color: #e91e63;
+      color: white;
+      font-size: 26px;
+      border: none;
+      border-radius: 50%;
+      width: 65px;
+      height: 65px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+    }
 
+    .donate-widget-box {
+      position: fixed;
+      bottom: 100px;
+      right: 25px;
+      background: #fff;
+      color: #333;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+      padding: 16px;
+      width: 280px;
+      display: none;
+      z-index: 999;
+    }
+
+    .donate-widget-box h3 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      color: #4CAF50;
+    }
+
+    .donate-widget-box input,
+    .donate-widget-box textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .donate-widget-box button {
+      width: 100%;
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      border: none;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .donate-widget-box label {
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    @media screen and (max-width: 600px) {
       section {
         padding: 40px 15px;
       }
 
       ul {
         padding-left: 15px;
+      }
+
+      .donate-widget-box {
+        width: 90%;
+        right: 5%;
       }
     }
   </style>
@@ -116,8 +222,13 @@
       <img src="images/logo.png" alt="Logo" width="60" />
       <h1>Eazy-Ira Foundation</h1>
     </div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
     <nav>
-      <ul>
+      <ul id="navList">
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="activities.html">Our Activities</a></li>
@@ -140,9 +251,38 @@
     </ul>
 
     <h2>Download Full Project</h2>
+    <p><button onclick="window.location.href='treasurer/dashboard.html'">Treasurer Dashboard</button></p>
     <p>
-      <button onclick="window.location.href='docs/project.pdf'">Download Full Project PDF</button>
+      <button onclick="window.location.href='docs/eazyira_presentation.pdf'">Download Full Project PDF</button>
     </p>
   </section>
+
+  <button class="donate-widget-btn" onclick="toggleDonateBox()" aria-label="Donate Button">🎁</button>
+
+  <div class="donate-widget-box" id="donateBox">
+    <h3>Donate Eazy-Ira Foundation</h3>
+    <input type="number" placeholder="Enter Amount in $" />
+    <input type="text" placeholder="Name / Email / Contact" />
+    <textarea rows="3" placeholder="Say something good..."></textarea>
+    <label><input type="checkbox"> Make this monthly</label>
+    <button onclick="submitDonation()">Send Support</button>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const navList = document.getElementById('navList');
+      navList.classList.toggle('active');
+    }
+
+    function toggleDonateBox() {
+      const box = document.getElementById('donateBox');
+      box.style.display = box.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function submitDonation() {
+      alert("Thank you for supporting Eazy-Ira Foundation!");
+      document.getElementById('donateBox').style.display = 'none';
+    }
+  </script>
 </body>
 </html>
